@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agent-services",
+  "metadata": {
+    "description": "A small marketplace of Claude Code plugins. Starts with session-routines (/wind-down + /good-morning)."
+  },
+  "owner": {
+    "name": "Jamie Cannon"
+  },
+  "plugins": [
+    {
+      "name": "session-routines",
+      "source": "./plugins/session-routines",
+      "description": "Start-of-day and end-of-day routines for Claude Code: /wind-down writes one consolidated brief across your sessions, /good-morning reads it back and re-checks what changed overnight.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jamie Cannon"
+      }
+    }
+  ]
+}

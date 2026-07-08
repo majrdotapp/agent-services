@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "session-routines",
+  "description": "Start-of-day and end-of-day routines for Claude Code. /wind-down sweeps your sessions and writes one consolidated brief; /good-morning reads it back and re-checks what changed overnight.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jamie Cannon"
+  },
+  "license": "MIT",
+  "keywords": ["routine", "wind-down", "good-morning", "sessions", "brief", "standup"]
+}
