@@ -1,7 +1,6 @@
 # agent-services
 
-A small [Claude Code](https://docs.claude.com/en/docs/claude-code) plugin
-marketplace. It currently ships one plugin — **session-routines** — with two
+A small marketplace sharing one plugin — **session-routines** — with two
 routines:
 
 - **`/wind-down`** — end of day, sweeps your sessions and writes one consolidated
@@ -21,16 +20,15 @@ wrote.
 In an interactive Claude Code session:
 
 ```
-/plugin marketplace add <owner>/agent-services
+/plugin marketplace add majrdotapp/agent-services
 /plugin install session-routines@agent-services
 ```
 
-Replace `<owner>` with the GitHub owner once this repo is pushed (e.g.
-`yourname/agent-services`). You can also point at a git URL or a local path:
+You can also point at a git URL or a local path:
 
 ```
-/plugin marketplace add https://github.com/<owner>/agent-services.git
-/plugin marketplace add /absolute/path/to/agent-services      # local, for development
+/plugin marketplace add https://github.com/majrdotapp/agent-services.git
+/plugin marketplace add /majrdotapp/agent-services      # local, for development
 ```
 
 Then start using it:
@@ -63,8 +61,7 @@ default branch.
 
 ## Using these in Codex (or other SKILL.md agents)
 
-The install steps above use Claude Code's plugin system, but the skills themselves are
-plain [SKILL.md](https://learn.chatgpt.com/docs/build-skills) files — an open standard
+The skills themselves are plain [SKILL.md](https://learn.chatgpt.com/docs/build-skills) files — an open standard
 — so they also work in [ChatGPT Codex](https://learn.chatgpt.com/docs/build-skills)
 and other agents that read it. There's no marketplace step; Codex auto-discovers
 skills from a skills directory. Copy (or symlink) the two skill folders into your
@@ -80,44 +77,10 @@ Then invoke them in Codex with `/skills` (or type `$` to mention one). The exact
 skills-directory path and how skills are enabled are still evolving — check the
 [Codex skills docs](https://learn.chatgpt.com/docs/build-skills) for current details.
 
-**Scope on Codex:** Codex works one workspace at a time and has no cross-session
+**Scope on Codex:** Today, Codex works one workspace at a time and has no cross-session
 enumeration like Claude Code's session harness, so these run in *single-workspace
 mode* — they capture the current repo's git/PR state and write/read the brief
 (`~/.wind-down/LATEST.md`) rather than sweeping every parallel session.
-
-## Adding more routines later
-
-This is a marketplace, so it can hold more plugins over time — and each plugin can
-hold more skills. To add another routine to the existing plugin, drop a new folder in:
-
-```
-plugins/session-routines/skills/<your-routine>/SKILL.md
-```
-
-Each `SKILL.md` needs YAML frontmatter with a `name` and a `description` (the
-description is what tells Claude when to trigger it), followed by the instructions.
-That's the whole contract — see the two existing skills as templates. To add a
-separate plugin instead, create `plugins/<new-plugin>/` and add an entry to
-`.claude-plugin/marketplace.json`.
-
-## Layout
-
-```
-agent-services/
-├── README.md
-├── LICENSE
-├── .claude-plugin/
-│   └── marketplace.json          # makes the repo installable
-└── plugins/
-    └── session-routines/
-        ├── .claude-plugin/
-        │   └── plugin.json        # plugin manifest
-        └── skills/
-            ├── wind-down/
-            │   └── SKILL.md
-            └── good-morning/
-                └── SKILL.md
-```
 
 ## License
 
