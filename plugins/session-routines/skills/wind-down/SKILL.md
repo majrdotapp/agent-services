@@ -22,7 +22,7 @@ a neutral log.
 
 ## Requirements
 
-These are plain [SKILL.md](https://learn.chatgpt.com/docs/build-skills) skills and
+These are plain [SKILL.md](https://developers.openai.com/codex/skills) skills and
 run in any agent that reads that open standard (Claude Code, Codex, and others).
 
 The routine shines when your agent can enumerate your *other* sessions — a
