@@ -1,6 +1,8 @@
 # agent-services
 
-A small marketplace sharing one plugin — **session-routines** — with two
+A simple way to begin and end your day for people who spend all day in agentic coding tools. Especially Claude. 
+
+Today we're sharing one plugin — **session-routines** — with two
 routines:
 
 - **`/wind-down`** — end of day, sweeps your sessions and writes one consolidated
