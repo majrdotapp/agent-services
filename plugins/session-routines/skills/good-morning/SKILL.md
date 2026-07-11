@@ -19,14 +19,15 @@ language, scannable. Don't soften it into a neutral status dump.
 
 ## Requirements
 
-Same session-management dependency as `/wind-down` (see its Requirements). If those
-tools are unavailable, still read the brief and re-check git/PR state for what it
-lists; just note that live session state couldn't be refreshed.
+Same portability as `/wind-down` (plain SKILL.md; runs in Claude Code, Codex, and
+other agents). If your agent can't enumerate sessions, still read the brief and
+re-check git/PR state for what it lists — just note that live session state couldn't
+be refreshed (single-workspace mode).
 
 ## Workflow
 
 ### 1. Read the brief
-Read `~/.claude/wind-down/LATEST.md`. If it doesn't exist, tell the user there's no
+Read `~/.wind-down/LATEST.md`. If it doesn't exist, tell the user there's no
 wind-down brief yet (suggest running `/wind-down` at end of day) and offer to run a
 fresh live sweep using the `/wind-down` logic instead. If the brief is several days
 old, say so — the "overnight" deltas may span a longer gap.
@@ -35,10 +36,10 @@ Parse each contract section so you can re-check it below: **Done today**, **Dang
 work (by repo)**, **Monitoring watch** (if present, + its "Watch tonight" line),
 **Resume tomorrow**, **Sessions**, **Uncommitted work**, **Cleanup candidates**.
 
-### 2. Re-check overnight deltas — in parallel
+### 2. Re-check overnight deltas
 For each session listed under **Sessions**, check what changed since the brief was
-written. Spawn subagents in parallel, or run the read-only commands directly if there
-are only a few. For each:
+written. If your agent supports subagents, spawn them in parallel; otherwise run the
+read-only commands directly. For each:
 - `git -C <dir> fetch` then `git -C <dir> status -sb` (new upstream commits? still dirty?)
 - if a PR exists and `gh` is available:
   `gh pr view <n> --json state,statusCheckRollup,reviewDecision,url,comments` —

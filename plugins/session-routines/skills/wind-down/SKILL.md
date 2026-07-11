@@ -1,11 +1,11 @@
 ---
 name: wind-down
-description: End-of-day routine across ALL your Claude Code sessions. Captures where every active session stands, flags uncommitted work, and writes one consolidated brief so you can pick up cleanly tomorrow. Use when you invoke /wind-down or say "wind down", "I'm logging off for the night", "good night", "shutting down for the day", or "wrap up for today".
+description: End-of-day routine across ALL your coding-agent sessions. Captures where every active session stands, flags uncommitted work, and writes one consolidated brief so you can pick up cleanly tomorrow. Use when you invoke /wind-down or say "wind down", "I'm logging off for the night", "good night", "shutting down for the day", or "wrap up for today".
 ---
 
 # wind-down
 
-If you run several Claude Code sessions in parallel across repos, this routine
+If you run several agent sessions in parallel across repos, this routine
 sweeps them at the end of the day and writes one consolidated brief so nothing is
 lost and you can resume cleanly tomorrow. Run it from whichever session you're in;
 it inspects the *other* sessions and writes a single file.
@@ -22,14 +22,16 @@ a neutral log.
 
 ## Requirements
 
-This skill is most useful in a Claude Code environment that exposes
-**session-management tools** — a `list_sessions` / `archive_session` pair (for
-example the multi-session harness in the Claude Code desktop app). Tool names vary
-by environment; discover them rather than hard-coding.
+These are plain [SKILL.md](https://learn.chatgpt.com/docs/build-skills) skills and
+run in any agent that reads that open standard (Claude Code, Codex, and others).
 
-- If session-management tools are **unavailable**, degrade gracefully to a
-  single-session wind-down: capture just the current repo's git + PR state and
-  write a one-session brief. Say so plainly.
+The routine shines when your agent can enumerate your *other* sessions — a
+`list_sessions` / `archive_session` pair such as Claude Code's session-management
+tools. Tool names vary by agent; discover them rather than hard-coding.
+
+- If your agent has **no way to enumerate other sessions** (e.g. Codex today),
+  run in **single-workspace mode**: capture just the current repo's git + PR state
+  and write a one-workspace brief. Say so plainly.
 - If session enumeration returns **only the current session**, say so and skip
   writing an empty brief.
 
@@ -65,15 +67,16 @@ the detailed summary. Cap the detailed set at ~12 sessions; if more qualify, kee
 the most recently active and note how many were omitted. Group results by repo
 (derive the repo name from the working directory).
 
-### 3. Gather per-session state — in parallel
-Spawn **one subagent per active session** (all in a single message so they run
-concurrently). Give each the session's id, title, directory, and PR info, and have
-it return a compact structured summary. Each subagent should:
+### 3. Gather per-session state
+Work through the active sessions and build a compact structured summary for each. If
+your agent can spawn subagents, run **one per active session** concurrently (all in a
+single message); otherwise gather them sequentially. For each session:
 
-1. **Find the transcript** for the session and read roughly the **last 60 lines**
-   to see what it was doing. (In this environment transcripts live at
-   `~/.claude/projects/*/<sessionId>.jsonl`, one JSON object per line — adapt to
-   wherever your environment stores them.)
+1. **Find the transcript** and read roughly the **last 60 lines** to see what it was
+   doing. Storage differs by agent — adapt to wherever yours keeps session
+   transcripts (Claude Code, for example, uses
+   `~/.claude/projects/*/<sessionId>.jsonl`, one JSON object per line). In
+   single-workspace mode there's only the current session, so skip the hunt.
 2. **Derive the real working dir + branch** from the most recent entries — a
    session may have been working in a git worktree, not the main repo path.
 3. **Read git + PR state** in that dir (read-only commands only):
@@ -102,8 +105,8 @@ Assemble these sections **in this order**. `/good-morning` walks every one, so
 don't drop a section — write it and note "none" if empty.
 
 Write the full brief to both:
-- `~/.claude/wind-down/STATUS-YYYY-MM-DD.md` (dated, today's date)
-- `~/.claude/wind-down/LATEST.md` (overwrite — `/good-morning` reads this)
+- `~/.wind-down/STATUS-YYYY-MM-DD.md` (dated, today's date)
+- `~/.wind-down/LATEST.md` (overwrite — `/good-morning` reads this)
 
 Use this structure:
 
@@ -172,9 +175,9 @@ merged"). Never archive speculatively or in bulk without being told what to arch
 
 ### 6. Recap
 Print a short terminal summary: sessions captured, how many have dirty WIP, how many
-archive candidates, and the path to the brief (`~/.claude/wind-down/LATEST.md`).
+archive candidates, and the path to the brief (`~/.wind-down/LATEST.md`).
 Remind the user `/good-morning` will pick it back up.
 
 ## Notes
 - The brief is global (spans all repos) by design — that's why it lives under
-  `~/.claude/wind-down/`, not in any one project's directory.
+  `~/.wind-down/` in your home directory, not in any one project's directory.
