@@ -33,7 +33,7 @@ Ignore: code diffs, debugging back-and-forth, tool call output, git commands, un
 Chat answers are sometimes wrong, and some become stale during a session (a behavior discussed early may have been changed by a later fix). Before a claim is written to a doc:
 
 - Spot-check each factual claim against the current code (read the relevant file, grep for the behavior)
-- If a claim cannot be verified quickly, either drop it or mark it inline with `<!-- unverified -->` so a later docs-audit pass can catch it
+- If a claim cannot be verified quickly, do not write it into any doc. Hold it back and surface it to the user in the confirmation step; write it only if the user explicitly approves it
 - Never document a behavior that the session itself changed without reflecting the final state
 
 ### 3. Read the Docs Index, Then Related Docs
@@ -44,6 +44,8 @@ Determine for each piece of extracted information:
 
 - **Add to existing file** — if a doc on this topic already exists
 - **Create new file** — if no doc covers this topic yet; prefer updating over creating a near-duplicate
+
+**Do not trust the index alone before creating a new file.** The index can be stale, incomplete, or a narrative README rather than an index. Before concluding that no doc covers a topic, list the actual files in `docs/` and `docs/internal/` and open any likely matches by filename. If the index disagrees with the tree, fix the index as part of this run.
 
 If `docs/README.md` does not exist, create it from the current contents of `docs/` before writing anything else.
 
@@ -100,7 +102,7 @@ After writing, list:
 
 - Files created or updated, with a one-line summary of what was added to each
 - **Corrections made** — any existing content that was rewritten because the session contradicted it, with a one-line before/after
-- Any claims marked `<!-- unverified -->`
+- **Unverified claims held back** — list each claim that could not be verified against the code and ask the user whether to include it. Add an approved claim to the doc only after the user says yes; discard the rest
 
 ## Notes
 
