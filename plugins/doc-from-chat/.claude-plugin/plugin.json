@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "doc-from-chat",
+  "description": "Turns the conversation you just had into documentation. /doc-from-chat scans the session for how-it-works explanations and answered questions, verifies each claim against the code, then writes or updates docs in the project's docs/ folder.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jamie Cannon"
+  },
+  "license": "MIT",
+  "keywords": ["documentation", "docs", "support", "knowledge-capture", "doc-from-chat"]
+}
