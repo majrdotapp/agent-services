@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "agent-services",
   "metadata": {
-    "description": "A small marketplace of Claude Code plugins. Starts with session-routines (/wind-down + /good-morning)."
+    "description": "A small marketplace of Claude Code plugins: session-routines (/wind-down + /good-morning) and doc-from-chat (turn a session into docs)."
   },
   "owner": {
     "name": "Jamie Cannon"
@@ -12,6 +12,15 @@
       "name": "session-routines",
       "source": "./plugins/session-routines",
       "description": "Start-of-day and end-of-day routines for Claude Code: /wind-down writes one consolidated brief across your sessions, /good-morning reads it back and re-checks what changed overnight.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jamie Cannon"
+      }
+    },
+    {
+      "name": "doc-from-chat",
+      "source": "./plugins/doc-from-chat",
+      "description": "Turns the conversation you just had into documentation: /doc-from-chat scans the session for how-it-works explanations and answered questions, verifies each claim against the code, then writes or updates docs in the project's docs/ folder.",
       "version": "0.1.0",
       "author": {
         "name": "Jamie Cannon"
