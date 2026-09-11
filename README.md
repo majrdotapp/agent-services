@@ -20,6 +20,17 @@ Two plugins so far.
   the project's `docs/` folder — support docs for end users in `docs/`,
   developer-facing architecture docs in `docs/internal/`.
 
+**majr-services** — the MAJR Agent Services as MCP servers, plus one skill:
+
+- `majr-seo`, `majr-dispatch`, `majr-media-encoding` — AI SEO (audit a live page for search
+  and AI answer engines; generate robots.txt, sitemap, head tags, llms.txt), Dispatch (a dev
+  log in, customer-facing release notes out), and Media Encoding (video to HLS, audio to AAC,
+  images to WebP). One key for all three, free during beta: https://majr.app/keys. Set it as
+  `MAJR_API_KEY` before starting Claude Code.
+- The `majr-services` skill knows when to reach for each service, the loops that work
+  (audit → fix → verify → deploy), and what a 401 / 403 / 503 means so the agent does not
+  rotate a good key.
+
 They're plain [SKILL.md](https://developers.openai.com/codex/skills) skills — an open
 standard, so they run in Claude Code and other agents like ChatGPT Codex. No service,
 no API, no accounts; everything is local to your machine and your git repos. The two
@@ -34,6 +45,7 @@ In an interactive Claude Code session:
 /plugin marketplace add majrdotapp/agent-services
 /plugin install session-routines@agent-services
 /plugin install doc-from-chat@agent-services
+/plugin install majr-services@agent-services   # then: export MAJR_API_KEY=... and restart
 ```
 
 You can also point at a git URL or a local path:
@@ -70,6 +82,7 @@ default branch.
 ```
 /plugin uninstall session-routines@agent-services
 /plugin uninstall doc-from-chat@agent-services
+/plugin uninstall majr-services@agent-services
 /plugin marketplace remove agent-services
 ```
 

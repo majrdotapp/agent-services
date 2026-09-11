@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "majr-services",
+  "description": "MAJR Agent Services in Claude Code: the AI SEO, Dispatch, and Media Encoding MCP servers, plus a skill that knows how to get a key and when to reach for each service.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jamie Cannon"
+  },
+  "homepage": "https://majr.app",
+  "license": "MIT",
+  "keywords": ["mcp", "seo", "geo", "release-notes", "changelog", "video", "encoding", "hls", "majr"]
+}

@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "agent-services",
   "metadata": {
-    "description": "A small marketplace of Claude Code plugins: session-routines (/wind-down + /good-morning) and doc-from-chat (turn a session into docs)."
+    "description": "A small marketplace of Claude Code plugins: session-routines (/wind-down + /good-morning), doc-from-chat (turn a session into docs), and majr-services (the MAJR Agent Services MCP servers + skill)."
   },
   "owner": {
     "name": "Jamie Cannon"
@@ -21,6 +21,15 @@
       "name": "doc-from-chat",
       "source": "./plugins/doc-from-chat",
       "description": "Turns the conversation you just had into documentation: /doc-from-chat scans the session for how-it-works explanations and answered questions, verifies each claim against the code, then writes or updates docs in the project's docs/ folder.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jamie Cannon"
+      }
+    },
+    {
+      "name": "majr-services",
+      "source": "./plugins/majr-services",
+      "description": "The MAJR Agent Services in Claude Code: AI SEO, Dispatch, and Media Encoding as MCP servers (one MAJR_API_KEY, free at majr.app/keys) plus a skill that knows when to use each and what every error means.",
       "version": "0.1.0",
       "author": {
         "name": "Jamie Cannon"
