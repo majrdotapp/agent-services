@@ -40,8 +40,9 @@ the evening one wrote.
 no API, and no account; everything they do is local to your machine and your git repos.
 `majr-services` is different: it needs a free account and key from
 [majr.app/keys](https://majr.app/keys), and its three MCP servers send what you hand
-them — a URL to audit, a dev log, an uploaded media file — to MAJR's hosted services for
-processing. What those services keep, and for how long, is in
+them — a URL to audit, the full HTML of a page you have not deployed yet (`audit_html`),
+a dev log, an uploaded media file — to MAJR's hosted services for processing. What those
+services keep, and for how long, is in
 [MAJR's privacy policy](https://majr.app/privacy).
 
 ## Install

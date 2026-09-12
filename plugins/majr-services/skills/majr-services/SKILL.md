@@ -10,7 +10,7 @@ Free during beta, no card.
 
 | Server (this plugin) | Does | Contract |
 |---|---|---|
-| `majr-seo` | Audit one live page (`audit_page`) or HTML you have not deployed yet (`audit_html`); generate `robots.txt`, `sitemap.xml`, the `<head>` block, `llms.txt` | https://seo.majr.app/llms.txt |
+| `majr-seo` | Audit one live page (`audit_page`) or HTML you have not deployed yet (`audit_html` sends that HTML to the service); generate `robots.txt`, `sitemap.xml`, the `<head>` block, `llms.txt` | https://seo.majr.app/llms.txt |
 | `majr-dispatch` | `draft_dispatch`: a raw dev log in, release-notes Markdown out; `get_voice`, `get_usage` | https://dispatch.majr.app/llms.txt |
 | `majr-media-encoding` | `create_upload` → PUT the bytes → `encode_media` → poll `get_encoding_job` | https://encoding.majr.app/llms.txt |
 
@@ -47,7 +47,7 @@ still reads the 6-digit code from their inbox.
 **AI SEO.** `audit_page` the live URL → read `findable` (can an engine reach and index it — fix
 these first) and `citable` (once reached, can it be extracted and attributed) → fix the template
 (`generate_head`, `generate_robots`, `generate_sitemap`, `generate_llms_txt` render the
-artifacts) → `audit_html` the render to verify before deploying → deploy → `audit_page` again.
+artifacts) → `audit_html` the render (the HTML leaves the machine) to verify before deploying → deploy → `audit_page` again.
 `score` is passed/13 with equal weights; a `0.0` means unreachable, not bad.
 
 **Dispatch.** Collect commit subjects and merged PR titles for the release, call
