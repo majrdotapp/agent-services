@@ -2,7 +2,7 @@
 
 A simple way to begin and end your day for people who spend all day in agentic coding tools. Especially Claude. 
 
-Two plugins so far.
+Three plugins so far.
 
 **session-routines** — two routines:
 
