@@ -32,10 +32,17 @@ Two plugins so far.
   rotate a good key.
 
 They're plain [SKILL.md](https://developers.openai.com/codex/skills) skills — an open
-standard, so they run in Claude Code and other agents like ChatGPT Codex. No service,
-no API, no accounts; everything is local to your machine and your git repos. The two
+standard, so they run in Claude Code and other agents like ChatGPT Codex. The two
 session routines share a "brief contract" so the morning routine walks every section
 the evening one wrote.
+
+**What leaves your machine.** `session-routines` and `doc-from-chat` need no service,
+no API, and no account; everything they do is local to your machine and your git repos.
+`majr-services` is different: it needs a free account and key from
+[majr.app/keys](https://majr.app/keys), and its three MCP servers send what you hand
+them — a URL to audit, a dev log, an uploaded media file — to MAJR's hosted services for
+processing. What those services keep, and for how long, is in
+[MAJR's privacy policy](https://majr.app/privacy).
 
 ## Install
 
@@ -106,6 +113,34 @@ cp -R plugins/doc-from-chat/skills/doc-from-chat   ~/.agents/skills/
 Then invoke them in Codex with `/skills` (or type `$` to mention one, e.g.
 `$wind-down`). See the [Codex skills docs](https://developers.openai.com/codex/skills)
 for more.
+
+**majr-services in Codex.** The skill copies the same way; the three MCP servers are
+registered in Codex's own config (Codex reads the key from the environment variable
+named in `bearer_token_env_var`):
+
+```
+cp -R plugins/majr-services/skills/majr-services ~/.agents/skills/
+export MAJR_API_KEY=rn_...        # from https://majr.app/keys
+```
+
+```toml
+# ~/.codex/config.toml
+[mcp_servers.majr-seo]
+url = "https://seo.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+
+[mcp_servers.majr-dispatch]
+url = "https://dispatch.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+
+[mcp_servers.majr-media-encoding]
+url = "https://encoding.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+```
+
+(`codex mcp add majr-seo --url https://seo.majr.app/mcp` writes the table for you; add
+the `bearer_token_env_var` line afterwards.) Other SKILL.md agents: copy the skill, and
+point their MCP client at the same three URLs with `Authorization: Bearer <key>`.
 
 **Scope on Codex:** Today, Codex works one workspace at a time and has no cross-session
 enumeration like Claude Code's session harness, so the session routines run in
