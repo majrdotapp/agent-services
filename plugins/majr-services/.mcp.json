@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "majr-seo": {
+      "type": "http",
+      "url": "https://seo.majr.app/mcp",
+      "headers": {
+        "Authorization": "Bearer ${MAJR_API_KEY}"
+      }
+    },
+    "majr-dispatch": {
+      "type": "http",
+      "url": "https://dispatch.majr.app/mcp",
+      "headers": {
+        "Authorization": "Bearer ${MAJR_API_KEY}"
+      }
+    },
+    "majr-media-encoding": {
+      "type": "http",
+      "url": "https://encoding.majr.app/mcp",
+      "headers": {
+        "Authorization": "Bearer ${MAJR_API_KEY}"
+      }
+    }
+  }
+}

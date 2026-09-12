@@ -2,7 +2,7 @@
 
 A simple way to begin and end your day for people who spend all day in agentic coding tools. Especially Claude. 
 
-Two plugins so far.
+Three plugins so far.
 
 **session-routines** — two routines:
 
@@ -20,11 +20,30 @@ Two plugins so far.
   the project's `docs/` folder — support docs for end users in `docs/`,
   developer-facing architecture docs in `docs/internal/`.
 
+**majr-services** — the MAJR Agent Services as MCP servers, plus one skill:
+
+- `majr-seo`, `majr-dispatch`, `majr-media-encoding` — AI SEO (audit a live page for search
+  and AI answer engines; generate robots.txt, sitemap, head tags, llms.txt), Dispatch (a dev
+  log in, customer-facing release notes out), and Media Encoding (video to HLS, audio to AAC,
+  images to WebP). One key for all three, free during beta: https://majr.app/keys. Set it as
+  `MAJR_API_KEY` before starting Claude Code.
+- The `majr-services` skill knows when to reach for each service, the loops that work
+  (audit → fix → verify → deploy), and what a 401 / 403 / 503 means so the agent does not
+  rotate a good key.
+
 They're plain [SKILL.md](https://developers.openai.com/codex/skills) skills — an open
-standard, so they run in Claude Code and other agents like ChatGPT Codex. No service,
-no API, no accounts; everything is local to your machine and your git repos. The two
+standard, so they run in Claude Code and other agents like ChatGPT Codex. The two
 session routines share a "brief contract" so the morning routine walks every section
 the evening one wrote.
+
+**What leaves your machine.** `session-routines` and `doc-from-chat` need no service,
+no API, and no account; everything they do is local to your machine and your git repos.
+`majr-services` is different: it needs a free account and key from
+[majr.app/keys](https://majr.app/keys), and its three MCP servers send what you hand
+them — a URL to audit, the full HTML of a page you have not deployed yet (`audit_html`),
+a dev log, an uploaded media file — to MAJR's hosted services for processing. What those
+services keep, and for how long, is in
+[MAJR's privacy policy](https://majr.app/privacy).
 
 ## Install
 
@@ -34,6 +53,7 @@ In an interactive Claude Code session:
 /plugin marketplace add majrdotapp/agent-services
 /plugin install session-routines@agent-services
 /plugin install doc-from-chat@agent-services
+/plugin install majr-services@agent-services   # then: export MAJR_API_KEY=... and restart
 ```
 
 You can also point at a git URL or a local path:
@@ -70,6 +90,7 @@ default branch.
 ```
 /plugin uninstall session-routines@agent-services
 /plugin uninstall doc-from-chat@agent-services
+/plugin uninstall majr-services@agent-services
 /plugin marketplace remove agent-services
 ```
 
@@ -93,6 +114,34 @@ cp -R plugins/doc-from-chat/skills/doc-from-chat   ~/.agents/skills/
 Then invoke them in Codex with `/skills` (or type `$` to mention one, e.g.
 `$wind-down`). See the [Codex skills docs](https://developers.openai.com/codex/skills)
 for more.
+
+**majr-services in Codex.** The skill copies the same way; the three MCP servers are
+registered in Codex's own config (Codex reads the key from the environment variable
+named in `bearer_token_env_var`):
+
+```
+cp -R plugins/majr-services/skills/majr-services ~/.agents/skills/
+export MAJR_API_KEY=rn_...        # from https://majr.app/keys
+```
+
+```toml
+# ~/.codex/config.toml
+[mcp_servers.majr-seo]
+url = "https://seo.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+
+[mcp_servers.majr-dispatch]
+url = "https://dispatch.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+
+[mcp_servers.majr-media-encoding]
+url = "https://encoding.majr.app/mcp"
+bearer_token_env_var = "MAJR_API_KEY"
+```
+
+(`codex mcp add majr-seo --url https://seo.majr.app/mcp` writes the table for you; add
+the `bearer_token_env_var` line afterwards.) Other SKILL.md agents: copy the skill, and
+point their MCP client at the same three URLs with `Authorization: Bearer <key>`.
 
 **Scope on Codex:** Today, Codex works one workspace at a time and has no cross-session
 enumeration like Claude Code's session harness, so the session routines run in
